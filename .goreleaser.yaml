@@ -14,7 +14,7 @@ builds:
     goarch:
       - amd64
       - arm64
-    binary: azipsvr
+    binary: http-server
     ldflags:
       - "-X github.com/lukibahr/azipsrv/pkg/cmd.buildVersion={{.Version}} -X github.com/lukibahr/azipsrv/pkg/cmd.buildCommit={{.ShortCommit}}"
 
