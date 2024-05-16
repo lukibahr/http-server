@@ -16,7 +16,7 @@ builds:
       - arm64
     binary: http-server
     ldflags:
-      - "-X github.com/lukibahr/azipsrv/pkg/cmd.buildVersion={{.Version}} -X github.com/lukibahr/azipsrv/pkg/cmd.buildCommit={{.ShortCommit}}"
+      - "-X github.com/lukibahr/http-server/pkg/cmd.buildVersion={{.Version}} -X github.com/lukibahr/http-server/pkg/cmd.buildCommit={{.ShortCommit}}"
 
 checksum:
   name_template: 'checksums.txt'
@@ -63,7 +63,7 @@ dockers:
   goarch: arm64
 
 docker_manifests:
-- name_template: 'ghcr.io/lukibahr/azipsrv:{{ .Version }}'
+- name_template: 'ghcr.io/lukibahr/http-server:{{ .Version }}'
   image_templates:
-  - 'ghcr.io/lukibahr/azipsrv:{{ .Version }}-amd64'
-  - 'ghcr.io/lukibahr/azipsrv:{{ .Version }}-arm64'
+  - 'ghcr.io/lukibahr/http-server:{{ .Version }}-amd64'
+  - 'ghcr.io/lukibahr/http-server:{{ .Version }}-arm64'
