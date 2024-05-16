@@ -1,4 +1,4 @@
-// main.go
+// package main implements the main entrypoint
 
 package main
 

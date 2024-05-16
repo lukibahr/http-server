@@ -1,4 +1,4 @@
-// app.go
+// package app implements the main app logic
 
 package main
 
@@ -45,7 +45,7 @@ func (a *App) getHandler(w http.ResponseWriter, r *http.Request) {
 		"addr":       r.RemoteAddr,
 		"body":       r.Body,
 	}).Info("get request received")
-	respondWithJSON(w, http.StatusOK, "ok")
+	respondWithJSON(w, http.StatusOK, "-XGET")
 }
 
 func (a *App) getHeaderHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +55,7 @@ func (a *App) getHeaderHandler(w http.ResponseWriter, r *http.Request) {
 		"body":       r.Body,
 		"headers":    r.Header,
 	}).Info("get request received")
-	respondWithJSON(w, http.StatusOK, "ok")
+	respondWithJSON(w, http.StatusOK, "-XHEADERS")
 }
 
 func (a *App) postHandler(w http.ResponseWriter, r *http.Request) {
@@ -71,8 +71,8 @@ func (a *App) postHandler(w http.ResponseWriter, r *http.Request) {
 		"addr":       r.RemoteAddr,
 		"body":       string(b),
 		"headers":    r.Header,
-	}).Info("get request received")
-	respondWithJSON(w, http.StatusOK, "ok")
+	}).Info("post request received")
+	respondWithJSON(w, http.StatusOK, "-XPOST")
 }
 
 func (a *App) initializeRoutes() {

@@ -1,15 +1,40 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
 project_name: http-server
+before:
+  hooks:
+    - go mod tidy
 builds:
-  - env: [CGO_ENABLED=0]
+  - env:
+      - CGO_ENABLED=0
     goos:
       - linux
+      - windows
       - darwin
     goarch:
       - amd64
       - arm64
+    binary: azipsvr
+    ldflags:
+      - "-X github.com/lukibahr/azipsrv/pkg/cmd.buildVersion={{.Version}} -X github.com/lukibahr/azipsrv/pkg/cmd.buildCommit={{.ShortCommit}}"
+
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - Merge pull request
+      - Merge branch
+
 dockers:
-- image_templates: ["ghcr.io/lukibahr/http-server:{{ .Version }}"]
+- image_templates: ["ghcr.io/lukibahr/http-server:{{ .Version }}-amd64"]
   dockerfile: Dockerfile
+  use: buildx
   build_flag_templates:
   - --label=org.opencontainers.image.title={{ .ProjectName }}
   - --label=org.opencontainers.image.description={{ .ProjectName }}
@@ -19,3 +44,26 @@ dockers:
   - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
   - --label=org.opencontainers.image.revision={{ .FullCommit }}
   - --label=org.opencontainers.image.licenses=MIT
+  - --pull
+  - --platform=linux/amd64
+- image_templates: ["ghcr.io/lukibahr/http-server:{{ .Version }}-arm64"]
+  dockerfile: Dockerfile
+  use: buildx
+  build_flag_templates:
+  - --label=org.opencontainers.image.title={{ .ProjectName }}
+  - --label=org.opencontainers.image.description={{ .ProjectName }}
+  - --label=org.opencontainers.image.url=https://github.com/lukibahr/http-server
+  - --label=org.opencontainers.image.source=https://github.com/lukibahr/http-server
+  - --label=org.opencontainers.image.version={{ .Version }}
+  - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
+  - --label=org.opencontainers.image.revision={{ .FullCommit }}
+  - --label=org.opencontainers.image.licenses=MIT
+  - --pull
+  - --platform=linux/arm64
+  goarch: arm64
+
+docker_manifests:
+- name_template: 'ghcr.io/lukibahr/azipsrv:{{ .Version }}'
+  image_templates:
+  - 'ghcr.io/lukibahr/azipsrv:{{ .Version }}-amd64'
+  - 'ghcr.io/lukibahr/azipsrv:{{ .Version }}-arm64'
