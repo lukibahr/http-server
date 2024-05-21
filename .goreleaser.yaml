@@ -63,7 +63,7 @@ dockers:
   goarch: arm64
 
 docker_manifests:
-- name_template: 'ghcr.io/lukibahr/azipsrv:{{ .Version }}'
+- name_template: 'ghcr.io/lukibahr/http-server:{{ .Version }}'
   image_templates:
-  - 'ghcr.io/lukibahr/azipsrv:{{ .Version }}-amd64'
-  - 'ghcr.io/lukibahr/azipsrv:{{ .Version }}-arm64'
+  - 'ghcr.io/lukibahr/http-server:{{ .Version }}-amd64'
+  - 'ghcr.io/lukibahr/http-server:{{ .Version }}-arm64'
